@@ -13,5 +13,5 @@ RUN echo "daemon off;" >> /etc/nginx/nginx.conf && rm /etc/nginx/sites-enabled/d
 RUN pip install -r /home/docker/code/app/requirements.txt && chmod +x /home/docker/code/*.sh
 
 VOLUME ["/home/docker/code/app"]
-EXPOSE [22,80]
+EXPOSE 80
 CMD ["/home/docker/code/run.sh"]
