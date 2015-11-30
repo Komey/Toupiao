@@ -10,11 +10,11 @@ def login(request):
     UserName = request.REQUEST.get('username','')
     PassWord = request.REQUEST.get('password','')
     if UserName =='' or PassWord =='':
-        return HttpResponse('{error:1004,maeeage:missing some part}')
+        return HttpResponse('{error:1004,message:missing some part}')
     try:
         info = USERS.objects.get(username = UserName)
         if info.password != PassWord:
-            return HttpResponse('{error:1002,maeeage:worng password}')
+            return HttpResponse('{error:1002,message:worng password}')
         else:
             UserInfo = info.user_info
             UserID = info.id
@@ -28,7 +28,7 @@ def login(request):
             val['message'] = data
             return  HttpResponse(json.dumps(val))
     except:
-        return HttpResponse('{error:1001,maeeage:Unknow username}')
+        return HttpResponse('{error:1001,message:Unknow username}')
 
 #########username password userinfo
 def signup(request):
@@ -36,7 +36,7 @@ def signup(request):
     PassWord = request.REQUEST.get('password','')
     UserInfo = request.REQUEST.get('userinfo','')
     if UserName =='' or PassWord =='':
-        return HttpResponse('{error:1004,maeeage:missing some part}')
+        return HttpResponse('{error:1004,message:missing some part}')
     try:
         user = USERS.objects.get(username = UserName)
         return HttpResponse('{error:1003,message:User name excepted}')
@@ -50,14 +50,14 @@ def updateuserinfo(request):
     UserID = request.REQUEST.get('userid','')
     UserInfo = request.REQUEST.get('userinfo','')
     if UserID =='' or UserInfo =='':
-        return HttpResponse('{error:1004,maeeage:missing some part}')
+        return HttpResponse('{error:1004,message:missing some part}')
     try:
         info = USERS.objects.get(id = int(UserID))
         info.user_info = UserInfo
         info.save()
         return HttpResponse('{error:2000,message:Success!}')
     except:
-        return HttpResponse('{error:1001,maeeage:Unknow userid}')
+        return HttpResponse('{error:1001,message:Unknow userid}')
 
 ######## userid password newpassword
 def changepassword(request):
@@ -65,17 +65,17 @@ def changepassword(request):
     PassWord = request.REQUEST.get('password','')
     NewPassWord = request.REQUEST.get('newpassword','')
     if UserID =='' or PassWord =='' or NewPassWord == '':
-        return HttpResponse('{error:1004,maeeage:missing some part}')
+        return HttpResponse('{error:1004,message:missing some part}')
     try:
         info = USERS.objects.get(id = int(UserID))
         if info.password != PassWord:
-            return HttpResponse('{error:1002,maeeage:worng password}')
+            return HttpResponse('{error:1002,message:worng password}')
         else:
             info.password = NewPassWord
             info.save()
             return HttpResponse('{error:2000,message:Success!}')
     except:
-        return HttpResponse('{error:1001,maeeage:Unknow userid}')
+        return HttpResponse('{error:1001,message:Unknow userid}')
 
 ######## creategame?userid=1&gamename=&gameinfo=
 def creategame(request):
@@ -83,7 +83,7 @@ def creategame(request):
     GameName = request.REQUEST.get('gamename','')
     GameInfo = request.REQUEST.get('gameinfo','')
     if UserID ==''or GameName ==''or GameInfo =='':
-        return HttpResponse('{error:1004,maeeage:missing some part}')
+        return HttpResponse('{error:1004,message:missing some part}')
     Game = GAMES(user_id = UserID,game_name = GameName,game_info = GameInfo)
     Game.save()
     return HttpResponse('{error:2000,message:Success!}')
@@ -93,20 +93,20 @@ def deletegame(request):
     GameID = request.REQUEST.get('gameid','')
 
     if GameID =='':
-        return HttpResponse('{error:1004,maeeage:missing some part}')
+        return HttpResponse('{error:1004,message:missing some part}')
     try:
         Game = GAMES.objects.get(id = int(GameID))
         Game.delete()
         return HttpResponse('{error:2000,message:Success!}')
     except:
-        return HttpResponse('{error:1001,maeeage:Unknow gameid}')
+        return HttpResponse('{error:1001,message:Unknow gameid}')
 
 ######## getgames?userid=1
 def getgames(request):
     UserID = request.REQUEST.get('userid','')
 
     if UserID =='':
-        return HttpResponse('{error:1004,maeeage:missing some part}')
+        return HttpResponse('{error:1004,message:missing some part}')
     try:
         Games = GAMES.objects.filter(user_id = UserID)
         val = {}
@@ -123,7 +123,7 @@ def getgames(request):
         val['message'] = game_list
         return HttpResponse(json.dumps(val))
     except:
-        return HttpResponse('{error:1001,maeeage:Unknow userid}')
+        return HttpResponse('{error:1001,message:Unknow userid}')
 
 ######## updategame?gameid=1&gamename=Hi&gameinfo=Test
 def updategame(request):
@@ -131,7 +131,7 @@ def updategame(request):
     GameName = request.REQUEST.get('gamename','')
     GameInfo = request.REQUEST.get('gameinfo','')
     if GameID ==''or GameName ==''or GameInfo =='':
-        return HttpResponse('{error:1004,maeeage:missing some part}')
+        return HttpResponse('{error:1004,message:missing some part}')
     try:
         Game = GAMES.objects.get(id = int(GameID))
         Game.game_info = GameInfo
@@ -139,7 +139,7 @@ def updategame(request):
         Game.save()
         return HttpResponse('{error:2000,message:Success!}')
     except:
-        return HttpResponse('{error:1001,maeeage:Unknow gameid}')
+        return HttpResponse('{error:1001,message:Unknow gameid}')
 
 ####### createround?gameid=1&roundname=first&roundinfo=nicai
 def createround(request):
@@ -147,7 +147,7 @@ def createround(request):
     RoundName = request.REQUEST.get('roundname','')
     RoundInfo = request.REQUEST.get('roundinfo','')
     if GameID ==''or RoundName ==''or RoundInfo =='':
-        return HttpResponse('{error:1004,maeeage:missing some part}')
+        return HttpResponse('{error:1004,message:missing some part}')
     Round = ROUNDS(game_id = GameID,round_name = RoundName,round_info = RoundInfo)
     Round.save()
     return HttpResponse('{error:2000,message:Success!}')
@@ -157,20 +157,20 @@ def deleteround(request):
     RoundID = request.REQUEST.get('roundid','')
 
     if RoundID =='':
-        return HttpResponse('{error:1004,maeeage:missing some part}')
+        return HttpResponse('{error:1004,message:missing some part}')
     try:
         Round = ROUNDS.objects.get(id = int(RoundID))
         Round.delete()
         return HttpResponse('{error:2000,message:Success!}')
     except:
-        return HttpResponse('{error:1001,maeeage:Unknow gameid}')
+        return HttpResponse('{error:1001,message:Unknow gameid}')
 
 ###### getrounds?gameid=1
 def getrounds(request):
     GameID = request.REQUEST.get('gameid','')
 
     if GameID =='':
-        return HttpResponse('{error:1004,maeeage:missing some part}')
+        return HttpResponse('{error:1004,message:missing some part}')
     try:
         Rounds = ROUNDS.objects.filter(game_id = GameID)
         val = {}
@@ -187,7 +187,7 @@ def getrounds(request):
         val['message'] = round_list
         return HttpResponse(json.dumps(val))
     except:
-        return HttpResponse('{error:1001,maeeage:Unknow gameid}')
+        return HttpResponse('{error:1001,message:Unknow gameid}')
 
 ##### updateround?roundid=1&roundname=HiFirst&roundinfo=this is first
 def updateround(request):
@@ -195,7 +195,7 @@ def updateround(request):
     RoundName = request.REQUEST.get('roundname','')
     RoundInfo = request.REQUEST.get('roundinfo','')
     if RoundID ==''or RoundName ==''or RoundInfo =='':
-        return HttpResponse('{error:1004,maeeage:missing some part}')
+        return HttpResponse('{error:1004,message:missing some part}')
     try:
         Round = ROUNDS.objects.get(id = int(RoundID))
         Round.round_info = RoundInfo
@@ -203,7 +203,7 @@ def updateround(request):
         Round.save()
         return HttpResponse('{error:2000,message:Success!}')
     except:
-        return HttpResponse('{error:1001,maeeage:Unknow gameid}')
+        return HttpResponse('{error:1001,message:Unknow gameid}')
 
 import paho.mqtt.publish as publish
 Hostname = "mqtt-lmh5257.myalauda.cn"
@@ -213,7 +213,7 @@ def sendmessage(request):
     Topic = request.REQUEST.get('topic','')
     Message = request.REQUEST.get('message','')
     if Topic =='' or Message =='':
-        return HttpResponse('{error:1004,maeeage:missing some part}')
+        return HttpResponse('{error:1004,message:missing some part}')
     publish.single(Topic, Message,qos=2, hostname=Hostname,port=Port)
     return HttpResponse('{error:2000,message:Success!}')
 
