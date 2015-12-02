@@ -2,9 +2,11 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from API.models import games as GAMES,users as USERS,rounds as ROUNDS
 import json
+from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 
 #########username & password
+@csrf_exempt
 def login(request):
 
     UserName = request.REQUEST.get('username','')
@@ -31,6 +33,7 @@ def login(request):
         return HttpResponse("{'error':1001,'message':'Unknow username'}")
 
 #########username password userinfo
+@csrf_exempt
 def signup(request):
     UserName = request.REQUEST.get('username','')
     PassWord = request.REQUEST.get('password','')
@@ -46,6 +49,7 @@ def signup(request):
         return HttpResponse("{'error':2000,'message':'Success!'}")
 
 ######## userid userinfo
+@csrf_exempt
 def updateuserinfo(request):
     UserID = request.REQUEST.get('userid','')
     UserInfo = request.REQUEST.get('userinfo','')
@@ -58,6 +62,8 @@ def updateuserinfo(request):
         return HttpResponse("{'error':2000,'message':'Success!'}")
     except:
         return HttpResponse("{'error':1001,'message':'Unknow userid'}")
+
+@csrf_exempt
 def getuserinfo(request):
     UserID = request.REQUEST.get('userid','')
     if UserID =='':
@@ -69,6 +75,7 @@ def getuserinfo(request):
         return HttpResponse("{'error':1001,'message':'Unknow userid'}")
 
 ######## userid password newpassword
+@csrf_exempt
 def changepassword(request):
     UserID = request.REQUEST.get('userid','')
     PassWord = request.REQUEST.get('password','')
@@ -87,6 +94,7 @@ def changepassword(request):
         return HttpResponse("{'error':1001,'message':'Unknow userid'}")
 
 ######## creategame?userid=1&gamename=&gameinfo=
+@csrf_exempt
 def creategame(request):
     UserID = request.REQUEST.get('userid','')
     GameName = request.REQUEST.get('gamename','')
@@ -98,6 +106,7 @@ def creategame(request):
     return HttpResponse("{'error':2000,'message':'Success!'}")
 
 ######## deletegame?gameid=2
+@csrf_exempt
 def deletegame(request):
     GameID = request.REQUEST.get('gameid','')
 
@@ -111,6 +120,7 @@ def deletegame(request):
         return HttpResponse("{'error':1001,'message':'Unknow gameid'}")
 
 ######## getgames?userid=1
+@csrf_exempt
 def getgames(request):
     UserID = request.REQUEST.get('userid','')
 
@@ -135,6 +145,7 @@ def getgames(request):
         return HttpResponse("{'error':1001,'message':'Unknow userid'}")
 
 ######## updategame?gameid=1&gamename=Hi&gameinfo=Test
+@csrf_exempt
 def updategame(request):
     GameID = request.REQUEST.get('gameid','')
     GameName = request.REQUEST.get('gamename','')
@@ -151,6 +162,7 @@ def updategame(request):
         return HttpResponse("{'error':1001,'message':'Unknow gameid'}")
 
 ####### createround?gameid=1&roundname=first&roundinfo=nicai
+@csrf_exempt
 def createround(request):
     GameID = request.REQUEST.get('gameid','')
     RoundName = request.REQUEST.get('roundname','')
@@ -162,6 +174,7 @@ def createround(request):
     return HttpResponse("{'error':2000,'message':'Success!'}")
 
 ###### deleteround?roundid=1
+@csrf_exempt
 def deleteround(request):
     RoundID = request.REQUEST.get('roundid','')
 
@@ -175,6 +188,7 @@ def deleteround(request):
         return HttpResponse("{'error':1001,'message':'Unknow gameid'}")
 
 ###### getrounds?gameid=1
+@csrf_exempt
 def getrounds(request):
     GameID = request.REQUEST.get('gameid','')
 
@@ -199,6 +213,7 @@ def getrounds(request):
         return HttpResponse("{'error':1001,'message':'Unknow gameid'}")
 
 ##### updateround?roundid=1&roundname=HiFirst&roundinfo=this is first
+@csrf_exempt
 def updateround(request):
     RoundID = request.REQUEST.get('roundid','')
     RoundName = request.REQUEST.get('roundname','')
@@ -218,6 +233,7 @@ import paho.mqtt.publish as publish
 Hostname = "mqtt-lmh5257.myalauda.cn"
 Port = 10078
 ######### sendmessage?topic=komey&message=hello
+@csrf_exempt
 def sendmessage(request):
     Topic = request.REQUEST.get('topic','')
     Message = request.REQUEST.get('message','')
