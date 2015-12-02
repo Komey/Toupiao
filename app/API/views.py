@@ -70,7 +70,7 @@ def getuserinfo(request):
         return HttpResponse("{'error':1004,'message':'missing some part'}")
     try:
         user = USERS.objects.get(id = int(UserID))
-        return HttpResponse("{'error':2000,'message':"+user.user_info+"}")
+        return HttpResponse("{'error':2000,'message':'"+user.user_info+"'}")
     except:
         return HttpResponse("{'error':1001,'message':'Unknow userid'}")
 
