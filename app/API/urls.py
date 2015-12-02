@@ -17,6 +17,7 @@ urlpatterns = [
     url(r'^getrounds',API.views.getrounds),
     url(r'^updateround',API.views.updateround),
     url(r'^sendmessage',API.views.sendmessage),
+    url(r'^getuserinfo',API.views.getuserinfo),
 
 
 ]
